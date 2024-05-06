@@ -70,7 +70,7 @@ Work in Progress:
 - Suggest me ideas
 
 ## Know Bug
-'/' char can't send
+char '\' sometime can't send
 
 
 #### Example payload.txt:
