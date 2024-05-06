@@ -90,7 +90,7 @@ Work in Progress:
 - Suggest me ideas
 
 ## Know Bug
-char '\' sometime can't send
+Char \ sometime can't send
 
 
 #### Example payload.txt:
