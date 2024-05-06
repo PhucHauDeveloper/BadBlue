@@ -90,7 +90,7 @@ Work in Progress:
 - Suggest me ideas
 
 ## Know Bug
-Char \ sometime can't send
+IDK
 
 
 #### Example payload.txt:
