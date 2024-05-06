@@ -16,10 +16,10 @@ BabBlue is a powerful tool for exploiting a vulnerability in Bluetooth devices. 
 2. Automatically save any devices you scan.
 3. Send payload via ducky script format to interact with devices.
 
-I've successfully run this on any Raspberry Pi 4 and VirtualBox using the CRS 4.0, ORICO 4.0,.. Bluetooth module. It works against various Windows with version lower .3007 .
+I've successfully run this on any Raspberry Pi 4 and VirtualBox using the CSR 4.0, ORICO 4.0,.. Bluetooth module. It works against various Windows with version lower .3007 .
 The Windows computer must be paired with a Bluetooth keyboard, and the keyboard must be switched off (or out of range).
 
-An attacker, using an Ubuntu computer and Broadcom-based Bluetooth adapter, spoofs the address of the target keyboard and connects to L2CAP 17 on the Windows computer, while specifying the `NoInputNoOutput` SSP pairing-capability.
+An attacker, using an Ubuntu(Kali can run but not recommend) computer and Broadcom-based Bluetooth adapter(CSR 4.0 maybe can run), spoofs the address of the target keyboard and connects to L2CAP 17 on the Windows computer, while specifying the `NoInputNoOutput` SSP pairing-capability.
 
 The victim sees a notification reading `Add a device` `Tap to set up your <Keyboard Name>`.
 
