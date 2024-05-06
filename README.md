@@ -17,6 +17,21 @@ BabBlue is a powerful tool for exploiting a vulnerability in Bluetooth devices. 
 3. Send payload via ducky script format to interact with devices.
 
 I've successfully run this on any Raspberry Pi 4 and VirtualBox using the CRS 4.0, ORICO 4.0,.. Bluetooth module. It works against various Windows with version lower .3007 .
+The Windows computer must be paired with a Bluetooth keyboard, and the keyboard must be switched off (or out of range).
+
+An attacker, using an Ubuntu computer and Broadcom-based Bluetooth adapter, spoofs the address of the target keyboard and connects to L2CAP 17 on the Windows computer, while specifying the `NoInputNoOutput` SSP pairing-capability.
+
+The victim sees a notification reading `Add a device` `Tap to set up your <Keyboard Name>`.
+
+If they ignore the notification, nothing happens.
+
+If they click on the notification, they are presented with a Bluetooth pairing-request dialog.
+
+If the victim has the "Add a Bluetooth device" UI open, they will not see a notification, and will instead be immediately presented with the pairing-request as a modal dialog.
+
+The attacker can complete pairing once the pairing-request dialog closes, even if the user clicks `Cancel` or `X`. Once pairing completes, the attacker connects to L2CAP 17 (HID Control).
+
+The attacker then connects to L2CAP 19 (HID Interrupt), and is able to inject arbitrary keystrokes.
 
 ## Installation and Usage
 
@@ -24,23 +39,29 @@ I've successfully run this on any Raspberry Pi 4 and VirtualBox using the CRS 4.
 
 ```bash
 # update apt
-sudo apt-get update
-sudo apt-get -y upgrade
+sudo apt-get update && sudo apt-get -y upgrade
 
 # install dependencies from apt
-sudo apt install -y bluez-tools bluez-hcidump libbluetooth-dev \
-                    git gcc python3-pip python3-setuptools \
-                    python3-pydbus dbus-x11
+sudo apt install -y bluez-tools bluez-hcidump git \
+                    python3-pip python3-setuptools \
+                    libbluetooth-dev dbus-x11
 
-# install pybluez from source
+# configure bluetoothd to run in compatibility mode to support sdptool
+sudo sed -i "s|ExecStart=/usr/lib/bluetooth/bluetoothd|ExecStart=/usr/lib/bluetooth/bluetoothd --compat|g" /lib/systemd/system/bluetooth.service
+sudo systemctl daemon-reload
+sudo systemctl restart bluetooth
+
+# install pybluez
 git clone https://github.com/pybluez/pybluez.git
 cd pybluez
 sudo python3 setup.py install
+python3 -m pip install pydbus
 
-# build bdaddr from the bluez source
-cd ~/
-git clone --depth=1 https://github.com/bluez/bluez.git
-gcc -o bdaddr ~/bluez/tools/bdaddr.c ~/bluez/src/oui.c -I ~/bluez -lbluetooth
+# build bdaddr from bluez
+cd ~
+git clone https://github.com/bluez/bluez.git
+cd bluez
+gcc -o bdaddr tools/bdaddr.c src/oui.c -lbluetooth -I.
 sudo cp bdaddr /usr/local/bin/
 ```
 
@@ -49,21 +70,20 @@ sudo cp bdaddr /usr/local/bin/
 git clone https://github.com/PhucHauDeveloper/BabBlue.git
 cd BabBlue
 sudo hciconfig hci0 up
-python3 BabBlue.py
 ```
+
+1. Pair a Bluetooth keyboard to the target Windows-computer, and turn off the keyboard
+2. On the Ubuntu computer, run the PoC: `./BadBlue.py -i <Interface> -k <Keyboard-Address> -c <Windows-Address>`
+3. Click on the notification when it appears on the Windows computer
+4. Close the pairing-request dialog (or click `Cancel` or `Approve`)
+5. If successful, the Ubuntu machine will connect to the Windows machine and inject a nondestructive your payload
+   
 -k is Keyboard(default my keyboard F4:73:35:7A:4B:BB, you need change it)
 
 -i is interface(default hci0)
 
 -c is target windows devices(type blank tool auto scan for you)
 
-## Operational Steps
-1. On running, it prompts for the target MAC address.
-2. Pressing nothing triggers an automatic scan for devices.
-3. Devices previously found are stored in known_devices.txt.
-4. If known_devices.txt exists, it checks this file before scanning.
-5. Executes using payload.txt file.
-6. Successful execution will result in automatic connection and script running.
 
 ## Duckyscript
 Work in Progress:
@@ -92,10 +112,5 @@ DELAY 300
 ```
 
 ## Enjoy experimenting with BabBlue!
-
-
-
-
-
 
 
