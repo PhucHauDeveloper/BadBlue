@@ -7,7 +7,7 @@ Unauthenticated Peering Leading to Code Execution (Using HID Keyboard)
 
 [This is an implementation of the CVE discovered by marcnewlin](https://github.com/marcnewlin/hi_my_name_is_keyboard)
 
-[And BlueDucky](https://github.com/pentestfunctions/BlueDucky)
+[And some code from BlueDucky](https://github.com/pentestfunctions/BlueDucky)
 
 ## Introduction
 BabBlue is a powerful tool for exploiting a vulnerability in Bluetooth devices. By running this script, you can:
