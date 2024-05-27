@@ -10,7 +10,7 @@ Unauthenticated Peering Leading to Code Execution (Using HID Keyboard)
 [And some code from BlueDucky](https://github.com/pentestfunctions/BlueDucky)
 
 ## Introduction
-BabBlue is a powerful tool for exploiting a vulnerability in Bluetooth devices. By running this script, you can:
+BadBlue is a powerful tool for exploiting a vulnerability in Bluetooth devices. By running this script, you can:
 
 1. Load saved Bluetooth devices that are no longer visible but have Bluetooth still enabled.
 2. Automatically save any devices you scan.
@@ -19,19 +19,19 @@ BabBlue is a powerful tool for exploiting a vulnerability in Bluetooth devices. 
 I've successfully run this on any Raspberry Pi 4 and VirtualBox using the CSR 4.0, ORICO 4.0,.. Bluetooth module. It works against various Windows with version lower .3007 .
 The Windows computer must be paired with a Bluetooth keyboard, and the keyboard must be switched off (or out of range).
 
-An attacker, using an Ubuntu(Kali can run but not recommend) computer and Broadcom-based Bluetooth adapter(CSR 4.0 maybe can run), spoofs the address of the target keyboard and connects to L2CAP 17 on the Windows computer, while specifying the `NoInputNoOutput` SSP pairing-capability.
+An attacker, using an Ubuntu (Kali can run but not recommend) computer and Broadcom-based Bluetooth adapter (CSR 4.0 maybe can run), spoofs the address of the target keyboard and connects to L2CAP 17 on the Windows computer, while specifying the `NoInputNoOutput` SSP pairing-capability.
 
 The victim sees a notification reading `Add a device` `Tap to set up your <Keyboard Name>`.
 
-If they ignore the notification, nothing happens.
+If they ignore the notification, nothing will happen.
 
-If they click on the notification, they are presented with a Bluetooth pairing-request dialog.
+If they click on the notification, they will be presented with a Bluetooth pairing-request dialog.
 
 If the victim has the "Add a Bluetooth device" UI open, they will not see a notification, and will instead be immediately presented with the pairing-request as a modal dialog.
 
 The attacker can complete pairing once the pairing-request dialog closes, even if the user clicks `Cancel` or `X`. Once pairing completes, the attacker connects to L2CAP 17 (HID Control).
 
-The attacker then connects to L2CAP 19 (HID Interrupt), and is able to inject arbitrary keystrokes.
+The attacker then can connect to L2CAP 19 (HID Interrupt), and is able to inject arbitrary keystrokes.
 
 ## Installation and Usage
 
@@ -65,10 +65,10 @@ gcc -o bdaddr tools/bdaddr.c src/oui.c -lbluetooth -I.
 sudo cp bdaddr /usr/local/bin/
 ```
 
-## Running BabBlue
+## Running BadBlue
 ```bash
-git clone https://github.com/PhucHauDeveloper/BabBlue.git
-cd BabBlue
+git clone https://github.com/PhucHauDeveloper/BadBlue.git
+cd BadBlue
 sudo hciconfig hci0 up
 ```
 
@@ -78,11 +78,11 @@ sudo hciconfig hci0 up
 4. Close the pairing-request dialog (or click `Cancel` or `Approve`)
 5. If successful, the Ubuntu machine will connect to the Windows machine and inject a nondestructive your payload
    
--k is Keyboard(default my keyboard F4:73:35:7A:4B:BB, you need change it)
+-k is Keyboard (default my keyboard F4:73:35:7A:4B:BB, you need change it)
 
--i is interface(default hci0)
+-i is interface (default hci0)
 
--c is target windows devices(type blank tool auto scan for you)
+-c is target windows devices (type blank tool auto scan for you)
 
 
 ## Duckyscript
@@ -111,6 +111,6 @@ ENTER
 DELAY 300
 ```
 
-## Enjoy experimenting with BabBlue!
+## Enjoy experimenting with BadBlue!
 
 
