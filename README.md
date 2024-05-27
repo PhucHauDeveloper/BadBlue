@@ -21,13 +21,13 @@ The Windows computer must be paired with a Bluetooth keyboard, and the keyboard 
 
 An attacker, using an Ubuntu (Kali can run but not recommend) computer and Broadcom-based Bluetooth adapter (CSR 4.0 maybe can run), spoofs the address of the target keyboard and connects to L2CAP 17 on the Windows computer, while specifying the `NoInputNoOutput` SSP pairing-capability.
 
-The victim sees a notification reading `Add a device` `Tap to set up your <Keyboard Name>`.
+The victim will see a notification reading `Add a device` `Tap to set up your <Keyboard Name>`.
 
 If they ignore the notification, nothing will happen.
 
 If they click on the notification, they will be presented with a Bluetooth pairing-request dialog.
 
-If the victim has the "Add a Bluetooth device" UI open, they will not see a notification, and will instead be immediately presented with the pairing-request as a modal dialog.
+If the victim has the `Add a Bluetooth device` UI open, they will not see a notification, and will instead be immediately presented with the pairing-request as a modal dialog.
 
 The attacker can complete pairing once the pairing-request dialog closes, even if the user clicks `Cancel` or `X`. Once pairing completes, the attacker connects to L2CAP 17 (HID Control).
 
@@ -67,9 +67,9 @@ sudo cp bdaddr /usr/local/bin/
 
 ## Running BadBlue
 ```bash
+# clone this repository
 git clone https://github.com/PhucHauDeveloper/BadBlue.git
 cd BadBlue
-sudo hciconfig hci0 up
 ```
 
 1. Pair a Bluetooth keyboard to the target Windows-computer, and turn off the keyboard
@@ -78,11 +78,11 @@ sudo hciconfig hci0 up
 4. Close the pairing-request dialog (or click `Cancel` or `Approve`)
 5. If successful, the Ubuntu machine will connect to the Windows machine and inject a nondestructive your payload
    
--k is Keyboard (default my keyboard F4:73:35:7A:4B:BB, you need change it)
+`-k` is keyboard (default my keyboard `F4:73:35:7A:4B:BB`, you need change it)
 
--i is interface (default hci0)
+`-i` is interface (default hci0)
 
--c is target windows devices (type blank tool auto scan for you)
+`-c` is target windows devices (type blank tool auto scan for you)
 
 
 ## Duckyscript
@@ -90,7 +90,7 @@ Work in Progress:
 - Suggest me ideas
 
 ## Know Bug
-IDK
+IDK :))
 
 
 #### Example payload.txt:
