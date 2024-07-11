@@ -91,8 +91,11 @@ Work in Progress:
 - Suggest me ideas
 
 ## Know Bug
-IDK :))
-
+Maybe your first time using and readchar is missing, use the following command:
+```
+pip install readchar
+```
+This tool should run in a GUI environment, CLI can cause dbus-launch error, if you know how to fix it contact me.
 
 #### Example payload.txt:
 ```bash
