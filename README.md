@@ -70,6 +70,7 @@ sudo cp bdaddr /usr/local/bin/
 # clone this repository
 git clone https://github.com/PhucHauDeveloper/BadBlue.git
 cd BadBlue
+python3 BadBlue.py
 ```
 
 1. Pair a Bluetooth keyboard to the target Windows-computer, and turn off the keyboard
